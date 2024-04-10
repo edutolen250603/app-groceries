@@ -1,27 +1,28 @@
+// products.dao.js
 import Product from '../models/products.model.js';
 
-const productDAO = {};
+const ProductDAO = {};
 
-productDAO.getAll = async () => { 
-    const products = await Product.find(); // Buscamos todos los productos en la base de datos
-    return products; // Retornamos los productos encontrados
+ProductDAO.getAll = async () => { 
+    const products = await Product.find(); 
+    return products; 
 };
 
-productDAO.getOne = async (barcode) => {
-    const product = await Product.findOne({ barcode: barcode }); // Buscamos un producto por su código de barras
-    return product; // Retornamos el producto encontrado
+ProductDAO.getOne = async (barcode) => {
+    const product = await Product.findOne({ barcode: barcode }); 
+    return product; 
 };
 
-productDAO.insertOne = async (product) => {
-    return await Product.create(product); // Insertamos un nuevo producto en la base de datos
+ProductDAO.insertOne = async (product) => {
+    return await Product.create(product); 
 };
 
-productDAO.updateOne = async (barcode, product) => {
-    return await Product.findOneAndUpdate({ barcode: barcode }, product); // Actualizamos un producto existente por su código de barras
+ProductDAO.updateOne = async (barcode, product) => {
+    return await Product.findOneAndUpdate({ barcode: barcode }, product); 
 };
 
-productDAO.deleteOne = async (barcode) => {
-    return await Product.findOneAndDelete({ barcode: barcode }); // Eliminamos un producto por su código de barras
+ProductDAO.deleteOne = async (barcode) => {
+    return await Product.findOneAndDelete({ barcode: barcode }); 
 };
 
-export default productDAO;
+export default ProductDAO;
