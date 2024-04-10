@@ -8,6 +8,6 @@ router.get('/', getAll);
 router.get('/:barcode', getOne);
 router.post('/', insertOne);
 router.post("/:barcode", updateOne);
-router.delete("/:barcode", deleteOne);
+router.get("/delete/:barcode", deleteOne); // Cambio realizado aquí
 
 export default router;
