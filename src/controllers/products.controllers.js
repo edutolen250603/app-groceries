@@ -65,10 +65,17 @@ productsController.deleteOne = (req, res) => {
             if (result) {
                 res.json({ result });
             } else {
+                // Aquí se manejaría el error de "Product not found" como JSON
                 res.json({ status: "Product not found" });
             }
         })
-        .catch(err => res.json({ status: "Server unavailable" }));
+        .catch(err => {
+            // Aquí se manejarían otros errores como JSON
+            res.json({
+                message: "Error deleting product",
+                error: err.toString()
+            });
+        });
 };
 
 export default app;
