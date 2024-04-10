@@ -1,81 +1,67 @@
-import express from 'express';
+// products.controller.js
 import ProductDAO from "../dao/products.dao.js";
 
-const app = express();
-
-// Middleware para establecer el tipo de contenido de todas las respuestas como JSON
-app.use((req, res, next) => {
-    res.setHeader('Content-Type', 'application/json');
-    next();
-});
-
-// Controlador de productos
 const productsController = {};
 
-// Obtener todos los productos
-productsController.getAll = (req, res) => {
-    ProductDAO.getAll()
-        .then(products => {
-            res.json({ products });
-        })
-        .catch(err => res.json({ status: "Server unavailable" }));
-}
-
-// Obtener un producto por código de barras
-productsController.getOne = (req, res) => {
-    const barcode = req.params.barcode;
-    ProductDAO.getOne(barcode)
-        .then(product => {
-            if (product) {
-                res.json({ product });
-            } else {
-                res.json({ status: "Product not found" });
-            }
-        })
-        .catch(err => res.json({ status: "Server unavailable" }));
-}
-
-// Insertar un nuevo producto
-productsController.insertOne = (req, res) => {
-    ProductDAO.insertOne(req.body)
-        .then(result => res.json({ result }))
-        .catch(err => res.json({ status: "Server unavailable" }));
-}
-
-// Actualizar un producto existente
-productsController.updateOne = (req, res) => {
-    const barcode = req.params.barcode;
-    const product = req.body;
-    ProductDAO.updateOne(barcode, product)
-        .then(result => {
-            if (result) {
-                res.json({ result });
-            } else {
-                res.json({ status: "Product not found" });
-            }
-        })
-        .catch(err => res.json({ status: "Server unavailable" }));
-}
-
-// Eliminar un producto
-productsController.deleteOne = (req, res) => {
-    const barcode = req.params.barcode;
-    ProductDAO.deleteOne(barcode)
-        .then(result => {
-            if (result) {
-                res.json({ result });
-            } else {
-                // Aquí se manejaría el error de "Product not found" como JSON
-                res.json({ status: "Product not found" });
-            }
-        })
-        .catch(err => {
-            // Aquí se manejarían otros errores como JSON
-            res.json({
-                message: "Error deleting product",
-                error: err.toString()
-            });
-        });
+productsController.getAll = async (req, res) => {
+    try {
+        const products = await ProductDAO.getAll();
+        res.json({ products });
+    } catch (err) {
+        res.status(500).json({ error: "Server unavailable" });
+    }
 };
 
-export default app;
+productsController.getOne = async (req, res) => {
+    const barcode = req.params.barcode;
+    try {
+        const product = await ProductDAO.getOne(barcode);
+        if (product) {
+            res.json({ product });
+        } else {
+            res.status(404).json({ error: "Product not found" });
+        }
+    } catch (err) {
+        res.status(500).json({ error: "Server unavailable" });
+    }
+};
+
+productsController.insertOne = async (req, res) => {
+    try {
+        const result = await ProductDAO.insertOne(req.body);
+        res.json({ result });
+    } catch (err) {
+        res.status(500).json({ error: "Server unavailable" });
+    }
+};
+
+productsController.updateOne = async (req, res) => {
+    const barcode = req.params.barcode;
+    const product = req.body;
+    try {
+        const result = await ProductDAO.updateOne(barcode, product);
+        if (result) {
+            res.json({ result });
+        } else {
+            res.status(404).json({ error: "Product not found" });
+        }
+    } catch (err) {
+        res.status(500).json({ error: "Server unavailable" });
+    }
+};
+
+productsController.deleteOne = async (req, res) => {
+    const barcode = req.params.barcode;
+    try {
+        const result = await ProductDAO.deleteOne(barcode);
+        if (result) {
+            res.json({ result });
+        } else {
+            res.status(404).json({ error: "Product not found" });
+        }
+    } catch (err) {
+        res.status(500).json({ error: "Server unavailable" });
+    }
+};
+
+export default productsController;
