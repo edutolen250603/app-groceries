@@ -1,9 +1,7 @@
-// products.controller.js
+// products.controllers.js
 import ProductDAO from "../dao/products.dao.js";
 
-const productsController = {};
-
-productsController.getAll = async (req, res) => {
+export const getAll = async (req, res) => {
     try {
         const products = await ProductDAO.getAll();
         res.json({ products });
@@ -12,7 +10,7 @@ productsController.getAll = async (req, res) => {
     }
 };
 
-productsController.getOne = async (req, res) => {
+export const getOne = async (req, res) => {
     const barcode = req.params.barcode;
     try {
         const product = await ProductDAO.getOne(barcode);
@@ -26,7 +24,7 @@ productsController.getOne = async (req, res) => {
     }
 };
 
-productsController.insertOne = async (req, res) => {
+export const insertOne = async (req, res) => {
     try {
         const result = await ProductDAO.insertOne(req.body);
         res.json({ result });
@@ -35,7 +33,7 @@ productsController.insertOne = async (req, res) => {
     }
 };
 
-productsController.updateOne = async (req, res) => {
+export const updateOne = async (req, res) => {
     const barcode = req.params.barcode;
     const product = req.body;
     try {
@@ -50,7 +48,6 @@ productsController.updateOne = async (req, res) => {
     }
 };
 
-// products.controllers.js
 export const deleteOne = async (req, res) => {
     const barcode = req.params.barcode;
     try {
@@ -64,6 +61,3 @@ export const deleteOne = async (req, res) => {
         res.status(500).json({ error: "Server unavailable" });
     }
 };
-
-
-export default productsController;
