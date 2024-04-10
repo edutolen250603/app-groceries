@@ -50,7 +50,8 @@ productsController.updateOne = async (req, res) => {
     }
 };
 
-productsController.deleteOne = async (req, res) => {
+// products.controllers.js
+export const deleteOne = async (req, res) => {
     const barcode = req.params.barcode;
     try {
         const result = await ProductDAO.deleteOne(barcode);
@@ -63,5 +64,6 @@ productsController.deleteOne = async (req, res) => {
         res.status(500).json({ error: "Server unavailable" });
     }
 };
+
 
 export default productsController;
