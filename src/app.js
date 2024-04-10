@@ -4,9 +4,6 @@ import productsRouter from './routes/products.routes.js';
 
 const app = express();
 
-// Configuración del motor de vistas (no se utilizará en respuestas JSON)
-app.set('view engine', 'ejs');
-
 // Middleware para parsear JSON en las peticiones
 app.use(express.json());
 
