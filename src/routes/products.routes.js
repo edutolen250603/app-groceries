@@ -1,21 +1,13 @@
-import { Router } from "express";
-import { getAll, getOne, insertOne, updateOne, deleteOne } from '../controllers/products.controllers.js';
+// products.routes.js
+import express from 'express';
+import { getAll, getOne, insertOne, updateOne, deleteOne } from '../controllers/products.controller.js';
 
-const router = Router();
+const router = express.Router();
 
-// Ruta para obtener todos los productos
 router.get('/', getAll);
-
-// Ruta para obtener un producto por su código de barras
 router.get('/:barcode', getOne);
-
-// Ruta para insertar un nuevo producto
 router.post('/', insertOne);
-
-// Ruta para actualizar un producto por su código de barras
 router.post("/:barcode", updateOne);
-
-// Ruta para eliminar un producto por su código de barras
-router.get("/delete/:barcode", deleteOne);
+router.delete("/:barcode", deleteOne);
 
 export default router;
